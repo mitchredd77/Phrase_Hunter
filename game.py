@@ -1,6 +1,7 @@
 ##importing phrase.py for testing
 from phrase import Phrase
 import random
+import os
 
 
 class Game:
@@ -15,12 +16,15 @@ class Game:
         self.active_phrase = self.get_random_phrase()
         self.guesses = [" "]
     
-        
+    def create_phrases(self):
+        with open('phrases.txt', 'r') as file:
+            self.bunch_of_phrases = [line.strip() for line in file]
+            
         
     def start(self):
         self.welcome()
         while self.missed < 5 and self.active_phrase.check_complete(self.guesses) is False:
-            print("Number missed: {}".format(self.missed))
+            print("\nNumber missed: {}\n".format(self.missed))
             self.active_phrase.display(self.guesses)
             try:
                user_guess = self.get_guess()
@@ -33,12 +37,8 @@ class Game:
             self.guesses.append(user_guess)
             if not self.active_phrase.check_guess(user_guess):
                self.missed += 1
-            print(self.guesses)
-            print(self.active_phrase.phrase)
         self.game_over()
              
-
-        
     def get_random_phrase(self):
         ran_phrase = random.choice(self.phrases)
         return ran_phrase
@@ -48,7 +48,7 @@ class Game:
         print("   Hello! Welcome to the PHRASE HUNTING\n")
         print("*******************************************")
     def get_guess(self):
-        guess = input("\nEnter a guess")
+        guess = input("\n\nEnter a guess  ")
         return guess
     
     def game_over(self):
