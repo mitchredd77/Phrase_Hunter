@@ -29,11 +29,15 @@ class Game:
             try:
                user_guess = self.get_guess()
                if len(user_guess) > 1:
-                   print("\nPlease only one letter!")
+                   print("\nPlease only one letter (that's lowercase) ")
                    continue
                if not user_guess.isalpha():
-                   print("\nThat is not a letter!")
+                   print("\nThat is not a letter! Please enter a lower case letter")
                    continue
+               if not user_guess.islower():
+                   print("That is not a lower case letter, please enter again as lower case")
+                   continue
+               
             except:
                print("\nThere was an error with your input. Please try again.")
                continue   
@@ -48,6 +52,7 @@ class Game:
 ## Check if the person has won after they input a guess and asks if they want to play again
     def check_end(self):
         if self.active_phrase.check_complete(self.guesses) == True:
+             print("\n")
              self.active_phrase.display(self.guesses)
              print("\n\n**********************************************************")
              print("\nCORRECT PHRASE! TOTAL MISSES: {}".format(self.missed))
