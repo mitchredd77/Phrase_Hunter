@@ -40,13 +40,10 @@ class Game:
                
             except:
                print("\nThere was an error with your input. Please try again.")
-               continue   
+               continue
             self.guesses.append(user_guess)
             if not self.active_phrase.check_guess(user_guess):
-               self.missed += 1
-               if self.missed == 5:
-                   self.game_over()
-                   self.on_switch = False   
+                 self.check_end_loss()
             self.check_end()
             
 ## Check if the person has won after they input a guess and asks if they want to play again
@@ -57,16 +54,27 @@ class Game:
              print("\n\n**********************************************************")
              print("\nCORRECT PHRASE! TOTAL MISSES: {}".format(self.missed))
              print("\n**********************************************************")
-             play_again = input("\nWould you like to play again?(Y or N)  ")
-             
-             if play_again == "Y" or play_again == "y":
-                  self.missed = 0
-                  self.guesses = [" "]
-                  self.create_phrases()
-                  self.active_phrase = Phrase(random.choice(self.phrases))
-             else:
-                  self.on_switch = False
-                  
+             self.play_again()
+
+    def check_end_loss(self):
+        self.missed += 1
+        if self.missed == 5:
+            self.game_over()
+            self.play_again()
+                   
+    def play_again(self):
+        play_again = input("\nWould you like to play again?(Y or N)  ")
+        if play_again == "Y" or play_again == "y":
+             self.missed = 0
+             self.guesses = [" "]
+             self.create_phrases()
+             self.active_phrase = Phrase(random.choice(self.phrases))
+        else:
+             print("\n***************************************")
+             print("Thank you for playing! Have a great day")
+             print("***************************************")
+             self.on_switch = False
+
  ###  Pulls a phrase randomly from the phrases list           
     def get_random_phrase(self):
         ran_phrase = random.choice(self.phrases)
@@ -85,7 +93,6 @@ class Game:
     
  ## Displays when the player has tried 5 times unsuccessfully and the game is over       
     def game_over(self):
-        if self.missed == 5:
             print("*************************************")
             print("          Sorry! You lost!")
             print("*************************************")
