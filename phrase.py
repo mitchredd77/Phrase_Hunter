@@ -21,4 +21,6 @@ class Phrase:
         for letter in self.phrase:
             if letter not in guesses:
                 return False
+        else:
+            return True    
 
