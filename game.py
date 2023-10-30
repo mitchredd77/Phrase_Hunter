@@ -18,7 +18,7 @@ class Game:
             self.bunch_of_phrases = [line.strip() for line in file]
         self.phrases = random.sample(self.bunch_of_phrases, 5)
             
-  ## The guts of the program       
+  ## main part of the process of the program goes sequentially    
     def start(self):
         self.welcome()
         self.create_phrases()
